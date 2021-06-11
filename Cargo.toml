@@ -1,0 +1,21 @@
+[package]
+name = "pve-rs"
+version = "0.1.0"
+authors = ["Proxmox Support Team <support@proxmox.com>"]
+edition = "2018"
+license = "AGPL-3"
+description = "PVE parts which have been ported to Rust"
+homepage = "https://www.proxmox.com"
+exclude = [
+    "build",
+    "debian",
+    "PVE",
+]
+
+[lib]
+crate-type = [ "cdylib" ]
+
+[dependencies]
+anyhow = "1.0"
+proxmox = { version = "0.11.5" }
+perlmod = { version = "0.5.0", features = [ "exporter" ] }

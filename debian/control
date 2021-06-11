@@ -1,0 +1,19 @@
+Source: libpve-rs-perl
+Section: perl
+Priority: optional
+Maintainer: Proxmox Support Team <support@proxmox.com>
+Build-Depends: debhelper (>= 10),
+               librust-perlmod-macro-dev,
+               librust-anyhow-dev,
+               librust-perlmod-dev,
+               librust-serde-dev,
+Standards-Version: 4.3.0
+Homepage: https://www.proxmox.com
+
+Package: libpve-rs-perl
+Architecture: any
+Depends: ${perl:Depends},
+         ${shlibs:Depends},
+Description: Components of Proxmox Virtual Environment which have been ported to Rust.
+ Contains parts of Proxmox Virtual Environment which have been ported to, or
+ newly implemented in the Rust programming language.

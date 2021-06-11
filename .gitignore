@@ -1,0 +1,8 @@
+/target
+Cargo.lock
+/PVE
+/build
+libpve-rs-perl-dbgsym_*.deb
+libpve-rs-perl_*.buildinfo
+libpve-rs-perl_*.changes
+libpve-rs-perl_*.deb
