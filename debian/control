@@ -5,6 +5,7 @@ Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: debhelper (>= 10),
                librust-perlmod-macro-dev,
                librust-anyhow-dev,
+               librust-proxmox-openid-dev,
                librust-perlmod-dev,
                librust-serde-dev,
 Standards-Version: 4.3.0

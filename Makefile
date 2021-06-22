@@ -16,7 +16,8 @@ DESTDIR=
 
 PM_DIRS :=
 
-PM_FILES :=
+PM_FILES := \
+	PVE/RS/OpenId.pm
 
 ifeq ($(BUILD_MODE), release)
 CARGO_BUILD_ARGS += --release
