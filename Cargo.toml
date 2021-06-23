@@ -1,6 +1,6 @@
 [package]
 name = "pve-rs"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Proxmox Support Team <support@proxmox.com>"]
 edition = "2018"
 license = "AGPL-3"
@@ -17,6 +17,6 @@ crate-type = [ "cdylib" ]
 
 [dependencies]
 anyhow = "1.0"
-proxmox = { version = "0.11.5" }
+proxmox = { version = "0.11.5", default-features = false }
 perlmod = { version = "0.5.1", features = [ "exporter" ] }
-proxmox-openid = "0.3.0"
+proxmox-openid = "0.5.0"
