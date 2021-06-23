@@ -14,10 +14,12 @@ DEBS=$(MAIN_DEB) $(DBGSYM_DEB)
 
 DESTDIR=
 
-PM_DIRS :=
+PM_DIRS := \
+	PVE/RS/APT
 
 PM_FILES := \
-	PVE/RS/OpenId.pm
+	PVE/RS/OpenId.pm \
+	PVE/RS/APT/Repositories.pm
 
 ifeq ($(BUILD_MODE), release)
 CARGO_BUILD_ARGS += --release
