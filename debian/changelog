@@ -1,3 +1,13 @@
+libpve-rs-perl (0.2.0) bullseye; urgency=medium
+
+  * add bindings for proxmox-apt
+
+  * depend on proxmox-openid 0.6.0
+
+  * move to native version format
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 30 Jun 2021 20:56:19 +0200
+
 libpve-rs-perl (0.1.2-1) unstable; urgency=medium
 
   * depend on proxmox-openid 0.5.0
