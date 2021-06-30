@@ -3,7 +3,7 @@ mod export {
     use std::sync::Mutex;
     use std::convert::TryFrom;
 
-    use anyhow::{bail, Error};
+    use anyhow::Error;
 
     use perlmod::{to_value, Value};
 
