@@ -60,7 +60,7 @@ mod export {
     /// The `digest` parameter asserts that the configuration has not been modified.
     #[export]
     pub fn add_repository(handle: &str, digest: Option<&str>) -> Result<(), Error> {
-        let (mut files, _errors, current_digest) = proxmox_apt::repositories::repositories()?;
+        let (mut files, errors, current_digest) = proxmox_apt::repositories::repositories()?;
 
         if let Some(digest) = digest {
             let expected_digest = proxmox::tools::hex_to_digest(digest)?;
@@ -71,6 +71,14 @@ mod export {
 
         let (repo, path) =
             proxmox_apt::repositories::get_standard_repository(handle.try_into()?, "pve")?;
+
+        if let Some(error) = errors.iter().find(|error| error.path == path) {
+            bail!(
+                "unable to parse existing file {} - {}",
+                error.path,
+                error.error,
+            );
+        }
 
         if let Some(file) = files.iter_mut().find(|file| file.path == path) {
             file.repositories.push(repo);
@@ -100,13 +108,17 @@ mod export {
         options: ChangeProperties,
         digest: Option<&str>,
     ) -> Result<(), Error> {
-        let (mut files, _errors, current_digest) = proxmox_apt::repositories::repositories()?;
+        let (mut files, errors, current_digest) = proxmox_apt::repositories::repositories()?;
 
         if let Some(digest) = digest {
             let expected_digest = proxmox::tools::hex_to_digest(digest)?;
             if expected_digest != current_digest {
                 bail!("detected modified configuration - file changed by other user? Try again.");
             }
+        }
+
+        if let Some(error) = errors.iter().find(|error| error.path == path) {
+            bail!("unable to parse file {} - {}", error.path, error.error);
         }
 
         if let Some(file) = files.iter_mut().find(|file| file.path == path) {
