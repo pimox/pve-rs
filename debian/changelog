@@ -1,3 +1,9 @@
+libpve-rs-perl (0.2.1) bullseye; urgency=medium
+
+  * depend on proxmox-apt 0.4.0
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 01 Jul 2021 18:37:20 +0200
+
 libpve-rs-perl (0.2.0) bullseye; urgency=medium
 
   * add bindings for proxmox-apt
