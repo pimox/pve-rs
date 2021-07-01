@@ -6,7 +6,8 @@ mod export {
     use serde::{Deserialize, Serialize};
 
     use proxmox_apt::repositories::{
-        APTRepositoryFile, APTRepositoryFileError, APTRepositoryInfo, APTStandardRepository,
+        APTRepositoryFile, APTRepositoryFileError, APTRepositoryHandle, APTRepositoryInfo,
+        APTStandardRepository,
     };
 
     #[derive(Deserialize, Serialize)]
@@ -56,11 +57,14 @@ mod export {
     }
 
     /// Add the repository identified by the `handle`.
+    /// If the repository is already configured, it will be set to enabled.
     ///
     /// The `digest` parameter asserts that the configuration has not been modified.
     #[export]
     pub fn add_repository(handle: &str, digest: Option<&str>) -> Result<(), Error> {
         let (mut files, errors, current_digest) = proxmox_apt::repositories::repositories()?;
+
+        let handle: APTRepositoryHandle = handle.try_into()?;
 
         if let Some(digest) = digest {
             let expected_digest = proxmox::tools::hex_to_digest(digest)?;
@@ -69,8 +73,23 @@ mod export {
             }
         }
 
-        let (repo, path) =
-            proxmox_apt::repositories::get_standard_repository(handle.try_into()?, "pve")?;
+        // check if it's already configured first
+        for file in files.iter_mut() {
+            for repo in file.repositories.iter_mut() {
+                if repo.is_referenced_repository(handle, "pve") {
+                    if repo.enabled {
+                        return Ok(());
+                    }
+
+                    repo.set_enabled(true);
+                    file.write()?;
+
+                    return Ok(());
+                }
+            }
+        }
+
+        let (repo, path) = proxmox_apt::repositories::get_standard_repository(handle, "pve")?;
 
         if let Some(error) = errors.iter().find(|error| error.path == path) {
             bail!(
