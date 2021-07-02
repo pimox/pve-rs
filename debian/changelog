@@ -1,3 +1,11 @@
+libpve-rs-perl (0.2.2) bullseye; urgency=medium
+
+  * apt: avoid overwriting files that could not be parsed
+
+  * apt: check if repository is already configured before adding
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 02 Jul 2021 13:06:42 +0200
+
 libpve-rs-perl (0.2.1) bullseye; urgency=medium
 
   * depend on proxmox-apt 0.4.0
