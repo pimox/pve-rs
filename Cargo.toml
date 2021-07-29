@@ -17,8 +17,8 @@ crate-type = [ "cdylib" ]
 
 [dependencies]
 anyhow = "1.0"
-proxmox = { version = "0.11.5", default-features = false }
+proxmox = { version = "0.12.1", default-features = false }
 perlmod = { version = "0.5.2", features = [ "exporter" ] }
-proxmox-apt = "0.4.0"
-proxmox-openid = "0.6.0"
+proxmox-apt = "0.6.0"
+proxmox-openid = "0.6.1"
 serde = "1.0"
