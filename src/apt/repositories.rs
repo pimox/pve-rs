@@ -44,8 +44,11 @@ mod export {
         let (files, errors, digest) = proxmox_apt::repositories::repositories()?;
         let digest = proxmox::tools::digest_to_hex(&digest);
 
+        let suite = proxmox_apt::repositories::get_current_release_codename()?;
+
         let infos = proxmox_apt::repositories::check_repositories(&files)?;
-        let standard_repos = proxmox_apt::repositories::standard_repositories("pve", &files);
+        let standard_repos =
+            proxmox_apt::repositories::standard_repositories(&files, "pve", &suite);
 
         Ok(RepositoriesResult {
             files,
@@ -65,6 +68,7 @@ mod export {
         let (mut files, errors, current_digest) = proxmox_apt::repositories::repositories()?;
 
         let handle: APTRepositoryHandle = handle.try_into()?;
+        let suite = proxmox_apt::repositories::get_current_release_codename()?;
 
         if let Some(digest) = digest {
             let expected_digest = proxmox::tools::hex_to_digest(digest)?;
@@ -76,7 +80,7 @@ mod export {
         // check if it's already configured first
         for file in files.iter_mut() {
             for repo in file.repositories.iter_mut() {
-                if repo.is_referenced_repository(handle, "pve") {
+                if repo.is_referenced_repository(handle, "pve", &suite) {
                     if repo.enabled {
                         return Ok(());
                     }
@@ -89,7 +93,8 @@ mod export {
             }
         }
 
-        let (repo, path) = proxmox_apt::repositories::get_standard_repository(handle, "pve")?;
+        let (repo, path) =
+            proxmox_apt::repositories::get_standard_repository(handle, "pve", &suite);
 
         if let Some(error) = errors.iter().find(|error| error.path == path) {
             bail!(
